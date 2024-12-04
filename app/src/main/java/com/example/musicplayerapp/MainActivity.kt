@@ -46,185 +46,190 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MusicPlayerAppTheme {
-//                val viewModel: MusicPlayerViewModel = viewModel() // Obtain viewModel
-//
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                ) {
-//                    AppImg(
-//                        viewModel = viewModel
-//                    ) // Pass viewModel to composable
-//                }
-//            }
                 MusicAppNavigation()
             }
         }
     }
 }
-    @Composable
-    fun AppImg(
-        navController: NavHostController,
-        viewModel: MusicPlayerViewModel,
-        modifier: Modifier = Modifier
+
+
+@Composable
+fun AppImg(
+    navController: NavHostController,
+    viewModel: MusicPlayerViewModel,
+    modifier: Modifier = Modifier
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    val album by viewModel.uiState.collectAsState()
+
+    // Resources for background and button images
+    val background = painterResource(R.drawable.backg3)
+    val lxImg = painterResource(R.drawable.next2)
+    val dxImg = painterResource(R.drawable.next1)
+    val centerImg = painterResource(R.drawable.play_button)
+
+    // Define layout with a Box containing the album image and buttons
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-        // Observe the state exposed by the ViewModel
-        val uiState by viewModel.uiState.collectAsState()
-
-        // Resources for background and button images
-        val background = painterResource(R.drawable.backg3)
-        val lxImg = painterResource(R.drawable.next2)
-        val dxImg = painterResource(R.drawable.next1)
-        val centerImg = painterResource(R.drawable.play_button)
-
-        // Define layout with a Box containing the album image and buttons
+        // Background image
+        Image(
+            painter = background,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        // Background overlay with gradient color
         Box(
-            modifier = modifier.fillMaxSize()
-        ) {
-            // Background image
-            Image(
-                painter = background,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            // Background overlay with gradient color
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(0x99000000),
-                                Color(0x99000000),
-                            ),
-                        )
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(0x99000000),
+                            Color(0x99000000),
+                        ),
                     )
+                )
+        ) {
+            // Column with album image + song name and artist name
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Column with album image and text
-                Column(
-                    modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Box(
+                    modifier = modifier
                 ) {
-                    Box(
-                        modifier = modifier
+                    Column(
+                        modifier = Modifier.align(Alignment.Center),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Column(
-                            modifier = Modifier.align(Alignment.Center),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            // Album Image
-                            Image(
-                                painter = painterResource(uiState.currentAlbum),
-                                contentDescription = "Album Cover",
-                                modifier = Modifier
-                                    .size(200.dp)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .clickable { // Navigate to details
-                                        navController.navigate("details/${uiState.currentAlbum}/${uiState.albumText}")
-                                    }
-                            )
-                            // Album text
-                            Text(
-                                text = uiState.albumText,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.SansSerif,
-                                color = colorResource(R.color.white),
-                                modifier = Modifier
-                                    .padding(top = 30.dp, bottom = 140.dp)
-                                    .align(Alignment.CenterHorizontally)
-                                    .width(350.dp),
-                                textAlign = TextAlign.Center,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
+                        // Album Image with onclick listener
+                        Image(
+                            painter = painterResource(album.id),
+                            contentDescription = "Album Cover",
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    navController.navigate(
+                                        "details/${album.songName}/${album.artistName}/${album.releaseMonth}/${album.releaseYear}/${album.trackCount}/${album.description}"
+                                    )
+                                }
+                        )
+                        // Song name text
+                        Text(
+                            text = album.songName,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.SansSerif,
+                            color = colorResource(R.color.white),
+                            modifier = Modifier
+                                .padding(top = 30.dp, bottom = 10.dp)
+                                .align(Alignment.CenterHorizontally)
+                                .width(350.dp),
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        // Artist name text
+                        Text(
+                            text = album.artistName,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.SansSerif,
+                            color = colorResource(R.color.white),
+                            modifier = Modifier
+                                .padding(top = 10.dp, bottom = 140.dp)
+                                .align(Alignment.CenterHorizontally)
+                                .width(350.dp),
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     }
+                }
 
-                    // Row for the player buttons
-                    Row(
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                            .align(Alignment.CenterHorizontally),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                // Row for the player buttons
+                Row(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    // Button for the previous song
+                    Button(
+                        onClick = { viewModel.randomizeAlbum() },
+                        modifier = Modifier.size(70.dp), // Uniform button size
+                        shape = androidx.compose.foundation.shape.CircleShape, // Circular shape
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.teal_200),
+                            contentColor = colorResource(R.color.white)
+                        ),
+                        elevation = androidx.compose.material3.ButtonDefaults.elevatedButtonElevation(
+                            10.dp
+                        )
                     ) {
-                        // Button for the previous album
-                        Button(
-                            onClick = { viewModel.randomizeAlbum() },
-                            modifier = Modifier.size(70.dp), // Uniform button size
-                            shape = androidx.compose.foundation.shape.CircleShape, // Circular shape
-                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.teal_200),
-                                contentColor = colorResource(R.color.white)
-                            ),
-                            elevation = androidx.compose.material3.ButtonDefaults.elevatedButtonElevation(
-                                10.dp
-                            )
-                        ) {
-                            Image(
-                                painter = lxImg,
-                                contentDescription = "Previous",
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
-                        // Button for the play action
-                        Button(
-                            onClick = { /* Action for center button */ },
-                            modifier = Modifier.size(70.dp),
-                            shape = androidx.compose.foundation.shape.CircleShape,
-                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.teal_200),
-                                contentColor = colorResource(R.color.white)
-                            ),
-                            elevation = androidx.compose.material3.ButtonDefaults.elevatedButtonElevation(
-                                10.dp
-                            )
-                        ) {
-                            Image(
-                                painter = centerImg,
-                                contentDescription = "Play",
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
-                        // Button for the next album
-                        Button(
-                            onClick = { viewModel.randomizeAlbum() },
-                            modifier = Modifier.size(70.dp),
-                            shape = androidx.compose.foundation.shape.CircleShape,
-                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.teal_200),
-                                contentColor = colorResource(R.color.white)
-                            ),
-                            elevation = androidx.compose.material3.ButtonDefaults.elevatedButtonElevation(
-                                10.dp
-                            )
-                        ) {
-                            Image(
-                                painter = dxImg,
-                                contentDescription = "Next",
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
-                    } // Close row
-                } // Close column
-            } // Close background overlay
-        } // Close Box
+                        Image(
+                            painter = lxImg,
+                            contentDescription = "Previous",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    // Button for the play action
+                    Button(
+                        onClick = { /* Action for center button */ },
+                        modifier = Modifier.size(70.dp),
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.teal_200),
+                            contentColor = colorResource(R.color.white)
+                        ),
+                        elevation = androidx.compose.material3.ButtonDefaults.elevatedButtonElevation(
+                            10.dp
+                        )
+                    ) {
+                        Image(
+                            painter = centerImg,
+                            contentDescription = "Play",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    // Button for the next song
+                    Button(
+                        onClick = { viewModel.randomizeAlbum() },
+                        modifier = Modifier.size(70.dp),
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.teal_200),
+                            contentColor = colorResource(R.color.white)
+                        ),
+                        elevation = androidx.compose.material3.ButtonDefaults.elevatedButtonElevation(
+                            10.dp
+                        )
+                    ) {
+                        Image(
+                            painter = dxImg,
+                            contentDescription = "Next",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                } // Close row
+            } // Close column
+        } // Close background overlay
+    } // Close main Box
+}
+
+// Function just for a preview
+@Preview(showBackground = true)
+@Composable
+fun MusicAppPreview() {
+    MusicPlayerAppTheme {
+        val fakeNavController = rememberNavController()
+        val previewViewModel = MusicPlayerViewModel()
+        previewViewModel.randomizeAlbum()
+
+        // Pass the fake NavController and ViewModel to AppImg
+        AppImg(navController = fakeNavController, viewModel = previewViewModel)
     }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun MusicAppPreview() {
-        MusicPlayerAppTheme {
-            // Create a fake NavController
-            val fakeNavController = rememberNavController()
-
-            // Create a fake ViewModel for preview purposes
-            val previewViewModel = MusicPlayerViewModel()
-
-            // Optionally simulate some state in the ViewModel
-            previewViewModel.randomizeAlbum()
-
-            // Pass the fake NavController and ViewModel to AppImg
-            AppImg(navController = fakeNavController, viewModel = previewViewModel)
-        }
-    }
+}
