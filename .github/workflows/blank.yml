@@ -20,6 +20,9 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          # Override v3's default: the legacy 'tools' SDK package is no longer available.
+          packages: 'platform-tools'
       - uses: gradle/actions/setup-gradle@v4
       - name: Install Android SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
