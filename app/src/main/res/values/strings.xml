@@ -1,3 +1,49 @@
 <resources>
-    <string name="app_name">MusicPlayerApp</string>
+    <string name="app_name">MusicPlayer</string>
+    <string name="player_title">Player</string>
+    <string name="queue_title">Your queue</string>
+    <string name="now_playing">NOW PLAYING</string>
+    <string name="artwork_preview">EXPLORE THE PLAYER</string>
+    <string name="preview_hint">Artwork preview · Import your music to start listening.</string>
+    <string name="preview_queue_hint">Explore the original artwork collection. Import audio to build your own queue.</string>
+    <string name="queue_hint">Tap a track to play it. Your music stays on your device.</string>
+    <string name="import_audio">Import audio</string>
+    <string name="open_queue">Open queue</string>
+    <string name="song_details">Track details</string>
+    <string name="play_track">Play this track</string>
+    <string name="remove_track">Remove from library</string>
+    <string name="show_preview">Show in player</string>
+    <string name="track_not_found">This track is no longer in your library.</string>
+    <string name="album_value">Album: %1$s</string>
+    <string name="year_value">Year: %1$s</string>
+    <string name="duration_value">Duration: %1$s</string>
+    <string name="local_file_hint">Local audio · Available in your imported library.</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="next">Next track</string>
+    <string name="previous">Previous track</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="random_preview">Random preview</string>
+    <string name="repeat">Change repeat mode</string>
+    <string name="repeat_off">Repeat off</string>
+    <string name="repeat_all">Repeat queue</string>
+    <string name="repeat_one">Repeat track</string>
+    <string name="seek">Playback position</string>
+    <string name="playback_error">Unable to play this file. Check that it is still available, or try another track.</string>
+    <string name="search_tracks">Search title or artist</string>
+    <string name="clear_search">Clear search</string>
+    <string name="no_results">No matching tracks. Try another title or artist.</string>
+    <plurals name="track_count">
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+    <string name="select_track">Select track</string>
+    <string name="selected_track">Selected track</string>
+    <string name="back">Back</string>
+    <string name="import_partial">Added: %1$d · Unreadable files: %2$d</string>
+    <string name="import_duplicates">These tracks are already in your library.</string>
+    <plurals name="import_success">
+        <item quantity="one">Imported %d track. Open the queue to listen.</item>
+        <item quantity="other">Imported %d tracks. Open the queue to listen.</item>
+    </plurals>
 </resources>
