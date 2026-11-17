@@ -1,102 +1,89 @@
-## Elevate project - motivational app
+# MusicPlayerApp
 
-## Description
-Elevate is a mobile application designed to empower users in organizing their thoughts and managing their daily lives. Life can often feel overwhelming, and Elevate provides a sanctuary to inspire users with carefully curated motivational quotes, help them track their achievements, and offer a personal space to reflect and grow.
+An Android music-player UI prototype built with Kotlin and Jetpack Compose.
 
-## Key Highlights
- -  Inspiration Through Quotes
- 
-Explore a vast collection of motivational quotes, designed to uplift and energize. Save your favorites to revisit whenever you need a boost of positivity.
+The app explores a player-style home screen, reactive UI state, and navigation to a details screen using a small, bundled music catalogue. **Audio playback is not implemented.**
 
-  - Personal Diary
-  
-A private and secure space for journaling your thoughts, experiences, and reflections. The intuitive interface ensures a seamless writing experience.
+Developed by **Enri Sulejmani**.
 
- - Achieve Your Goals
- 
-Use the Task Manager to define, track, and complete your goals. Set deadlines and reminders to ensure you stay on top of your priorities.
+## Features
 
-  - Seamless Design and Functionality
-  
-The app features a modern, user-friendly interface that adapts to your needs. Whether you’re planning your day, reflecting on your week, or seeking a moment of inspiration, Elevate is here for you.
+- **Player-style interface:** displays cover artwork, a song title, and an artist over a background image.
+- **Music selection:** the previous and next buttons each select a random item from four bundled entries. They do not follow a sequential playlist, and the same item can be selected again.
+- **Details screen:** tap the cover to view the selected item's title, artist, release information, track count, and description.
+- **Back navigation:** return from the details screen to the home screen.
+- **Local sample data:** catalogue entries and images are bundled with the app; no account or external API is required.
 
-  - Offline Support
- 
-Access your saved quotes, diaries, and tasks even when you’re offline, ensuring you’re never disconnected from your personal growth.
+## Technologies
 
-## Project Architecture
+Kotlin · Jetpack Compose · Material 3 · Navigation Compose · ViewModel · StateFlow
 
-This project follows a MVVM (Model-view-viewmodel) Architecture. The project's file are divided in different folders. In the viewmodel folder it is possible to find the different viewmodels of the application. These are:
-- DiariesViewModel
-- QuoteViewModel
-- TaskViewModel
-- ThemeViewModel
+The project uses Android Gradle Plugin **8.6.0**, Kotlin **1.9.0**, and the included Gradle **8.7** wrapper.
 
-For each file there is business logic for each screen they are related to. In the DiariwsViewModel the code and logic for the Diaries section is defined. In the QuoteViewModel the code defining the logic behind the Quotes is defined. So it is for the code and logic in the TaskViewModel related to the tasks feature. In the ThemViewModel the code and logic for mantainign and updating the application's theme is defined.
+## Run locally
 
+### Requirements
 
-## Badges
-[![CI](https://github.com/EnriS2003/MusicPlayerApp/actions/workflows/blank.yml/badge.svg)](https://github.com/EnriS2003/MusicPlayerApp/actions/workflows/blank.yml)
-Version 1.0.0
+- Android Studio with support for Android Gradle Plugin 8.6.0.
+- **JDK 17** for Gradle.
+- **Android SDK Platform 35**.
+- An Android emulator or device running **Android 7.0 (API 24)** or newer.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Android Studio
 
-## Installation
-To work on the project, or run the app you would need **Andorid Studio Koala Feature Drop | 2024.1.2** or a recent version.
+1. Clone the repository:
 
-These are the information of the system used to develope the app:
-**Build Version: AI-241.18034.62.2412.12266719
-Runtime Version: OpenJDK 17.0.11
-Sistema: Aarch64 architecture (Make sure your system supports the correct version of Android Studio).
+   ```bash
+   git clone https://github.com/EnriS2003/MusicPlayerApp.git
+   cd MusicPlayerApp
+   ```
 
-You can download the latest version of Android Studio [here](https://developer.android.com/studio).
+2. Open the repository root, which contains `settings.gradle.kts`.
+3. Set the Gradle JDK to **17**, then sync the project and install any requested SDK components.
+4. Select the **app** configuration and a connected device or emulator, then run.
 
-## Usage
+### Command line
 
-Home Screen
-	- Fetches random motivational quotes from an API.
-	- Save quotes to your favorites or remove them as desired.
- - Move to the other pages.
+With JDK 17 and the Android SDK configured through `ANDROID_HOME` or a local `local.properties` file:
 
-Tasks
-	- 	Add tasks with a title and deadline.
-	- 	Mark tasks as complete or delete them.
-	- 	Filter completed and expired tasks.
- -  Move to the other pages.
+```bash
+./gradlew :app:assembleDebug
+```
 
-Diary
-	- 	Create diary entries with titles and detailed descriptions.
-	- 	Edit or delete existing entries.
- -  Move to the other pages.
+On Windows, use `gradlew.bat` instead of `./gradlew`.
 
-Favorites
-	- Access all saved quotes.
-	- Remove quotes from favorites.
+The debug APK is generated at `app/build/outputs/apk/debug/app-debug.apk`.
 
-## Support
-If you encounter any issues, feel free to:
-	•	Open an issue on the GitLab repository.
-	•	Contact me directly at: enrisulejmani@icloud.com 
- 
-## Roadmap
-Upcoming Features:
-	1.	Push notifications for daily motivational quotes.
-	2.	Cloud synchronization for tasks and diaries.
-	3.	Enhanced filtering and search for saved quotes.
+## Code structure
 
-## Contributing
-Contributions are welcome! Please follow these steps:
-	1.	Fork the repository.
-	2.	Create a new branch (feature/your-feature-name).
-	3.	Commit your changes with detailed messages.
-	4.	Push the branch and open a merge request.
+| File | Responsibility |
+| --- | --- |
+| [MainActivity.kt](app/src/main/java/com/example/musicplayerapp/MainActivity.kt) | Application entry point and the player-style Compose UI. |
+| [MusicAppNavigation.kt](app/src/main/java/com/example/musicplayerapp/navigation/MusicAppNavigation.kt) | Home and details destinations, with values passed through navigation arguments. |
+| [DetailsScreen.kt](app/src/main/java/com/example/musicplayerapp/navigation/DetailsScreen.kt) | Displays the selected item's information and a back button. |
+| [MusicPlayerViewModel.kt](app/src/main/java/com/example/musicplayerapp/ui/theme/MusicPlayerViewModel.kt) | Holds the sample catalogue and exposes the selected item through StateFlow. |
+| [Album.kt](app/src/main/java/com/example/musicplayerapp/model/Album.kt) | Data model for the catalogue entries. |
 
-## Authors and acknowledgment
-Enri Sulejmani - Developer & Maintainer.
+Compose observes the selected item from the ViewModel and updates the home screen when that state changes.
 
-## License
-This project is licensed under the UniBz License.
+## Project status and limitations
 
-## Project status
-Currently the develpement has been stopped. New features and enhancements could be added in the future.
+This is a small learning prototype, preserved for portfolio and reference purposes. Feature development is currently inactive.
+
+- The Play button is a visual placeholder.
+- There is no audio engine, streaming integration, playlist management, database, or persistent playback state.
+- The catalogue uses illustrative, hardcoded metadata.
+- The repository includes Android template tests, rather than a comprehensive application test suite.
+- The existing GitHub Actions workflow is a starter example; it does not compile or test the app.
+
+To run the bundled local unit tests:
+
+```bash
+./gradlew :app:testDebugUnitTest
+```
+
+## Credits and licensing
+
+The sample artist and cover images are included as prototype assets. Their presence in this repository does not grant rights to reuse them.
+
+No open-source license file is currently provided for this project.
